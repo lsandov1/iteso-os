@@ -1,117 +1,143 @@
-# Scheduler
+# Process Scheduler
 
-Problem: Tasks >> CPU Cores, so which to tasks to run? when? and how long?
-
-One of the kernel's task tries to solve it efficiently and all this code is
-what we call the 'scheduler'.
+The process scheduler (located at the kernel) deals with *processes* so lets
+review what are these entities.
 
 ## Process
 
 A instance of a program (object code stored on some media) running.
 
-On a modern OS, even on IDLE, there are many process running (kernel and user
+On a modern OS, even on *idle*, there are many process running (kernel and user
 space processes)
 
 To see all processes
 
 ```bash
-ps aux
+ps -aux
 ```
 
-<!-- ### Process Life-Cycle -->
+Or top CPU process consumers
 
-<!-- Simplistic process life-cycle diagram -->
-
-<!-- ![alt text][plc] -->
-
+```bash
+top
+```
 ### Process States
 
 ![alt text][ps]
 
+Look at the `STAT` column
 
-## Kernel scheduler
+```bash
+ps -aux
+```
 
-Key functions of the kernel CPU scheduler are:
+In UNIX systems, `man` pages are great for leaning. Open `ps` man page and
+look for *PROCESS STATE CODES*.
 
-![alt text][ksf]
+## Process Scheduler
 
+A kernel subsytems that puts process to work. Decides **which** process to run,
+**when**, and for **how long**.
 
-These are:
+The scheduler is the basis of a multitasking operating system such as Linux.
 
-* **Time sharing**: multitasking between runnable threads, executing those
-  with the highest priority first.
-* **Preemption**: For threads that have become runnable at a high priority,
-  the scheduler can preempt the current running thread, so that execution of
-  higher-priority thread can begin immediately.
-* **Load balancing**: moving runnable threads to the run queues of idle or
-  less busy CPUs.
-
-The figure shows run queues per CPU. There are also run queues per priority
-level, so that the scheduler can easily manage which thread of the same
-priority should run
-
-### Linux
-
-system timer interrupt -> `scheduler_tick()` -> (corresponding scheduler class
-manage priorities and expiry of units of CPU time called *time slices*).
+The scheduler is responsible for **best utilizing** the system and giving
+users the impression that multiple process are executing simultaneously.
 
 
-Preemption occurs when: threads become runnable and the scheduler class
-`check_preempt_curr()` is called. Switching of threads is managed by
-`__schedule()`, which selects the highest-priority thread via `pick_next_task()`
-for running.
+## Multitasking
 
-## Scheduling Classes
+A *multitasking* OS is one that can simultaneously interleave execution of
+more that one process.
 
-Scheduling classes manage the behaviour of runnable threads, specifically
-their **priorities**, whether their on-CPU time is time-sliced and the duration of
-those time slices (also know as *time quantum*). Additional controls via
-**scheduling policies**, which may be selected within a scheduling class and
-can control scheduling between threads of the same priority.
+**Single processor machines**: gives the illusion of multiple processes running
+concurrently
+**Multiprocessor machines**: process actually run concurrenlty, in parallel,
+on different processors.
 
-* **RT**: fixed and high priorities for real-time workloads.
-* **O(1)**: Introduced in Linux 2.6 as the default time-sharing scheduler for
-  user processes. Improve previous *O(n)* scheduler, dynamically improves the
-  priority I/O-bound over CPU-bound workloads, to reduce latency of
-  interactive and I/O workloads.
-* **CFS**: Completely Fair Scheduling was added to the Linux 2.6.23 kernel as
-  the default time-sharing scheduler for user processes. Uses red-black tree
-  instead of tradition run queues.
-  
-![alt text][tsp]
+Enables many procceses to *block* or *sleep*.
 
-### Scheduler policies
+Multitasking OSs come in two flavors: *coopertive multitasking* and *
+preemptive multitasking*. Most modern OS are preemptive, so the scheduler
+decides when a process is to cease running and a new process is to begin
+running.
 
-Scheduler policies are:
+## Linux's process scheduler
 
-* **RR**: `SCHED_RR` is round-robin scheduling: Once a thread has used its
-  time quantum, it is moved to the end of the run queue for that priority
-  level, allowing others of the same priority to run.
-* **FIFO**: `SCHED_FIFO`: is first-in first-out scheduling, which continues
-  running the thread at the head of the run queue until it voluntary leaves,
-  or a high-priority thread arrives.
-* **NORMAL**:`SCHED_NORMAL` (previously known as `SCHED_OTHER`) is a
-  time-sharing scheduling and is the default for user processes. The scheduler
-  dynamically adjusts priority based on the scheduling class. For `O(1)`, the
-  time slice duration is set based on the static priority: longer duration for
-  higher-priority work. For CFS, the time slice is dynamic.
-* **BATCH**: `SCHED_BATCH` is similar to `SCHED_NORMAL`, but with the
-  expectation that the thread will be CPU-bound and should not be scheduler to
-  interrupt other I/O-bound interactive work.
+A [phrase][linus-easy-scheduler-2001] from Linus Torvalds about scheduling in 2001
 
-When there is no thread to run, a special *idle task* (also called *idle
-thread*) is executed as a placeholder until another thread is runnable.
-  
-### Idle thread
-  
-The kernel "idle" thread (or "idle task") runs on-CPU when there is no other
-runnable thread and has the lowest possible priority. It is usually
-programmed to inform the process that CPU execution may be halted (halt
-instruction) or throttled down to conserve power. The CPU will wake up on
-the next HW interrupt.  
+> And you have to realize that there are not very many things that have
+> aged as well as the scheduler. Which is just another proof that scheduling
+> is easy.
 
-[plc]: images/process-life-cycle.jpg
+Things have now: **multicore** machines.
+
+how many cores your machine have?
+
+```bash
+cat /proc/cpuinfo
+```
+
+**First scheduler**: Pros: First version of the Linux's scheduler was simple. Cons: Easy to understand, but
+scaled poorly in light of many runnable processes or many processors.
+
+**`O(1)`**: Pros: Fast, scalable on large "iron" with tens if not hundreds of
+processors. Cons: pathological failures related to scheduling
+latency-sensitive applications, called *interactive processes*, so it was good
+for batch runs in servers but bad for desktops.
+
+**CFS**: Completely Fair Scheduler. Improves previous scheduler and currently
+is the default in Linux.
+
+
+## Policy
+
+defines **what* runs and *when*. Often determines the overall feel of a system
+and is responsible for optimally utilizing processor time.
+
+### I/0-Bound Versus Process-Bound Processes
+
+### Process Priority
+
+Linux implements two separate priority ranges: *nice* and *real-time* priotity
+
+Nice:
+
+```bash
+ps -el # for nice values
+ps -eo state,uid,pid,ppid,rtprio,time,comm # for real-time values
+```
+
+
+### Timeslice
+
+Numeric value that represents how long a task can run until it is preempted.
+
+Too causes causes the system to have a poor interactive performance and too
+short causes significant amounts of processor time to be wasted on switching processes.
+
+The Linux's CFS scheduler does not directly assign timeslices to process: it
+provides a **proportion** of the processor, so the assigned timeslice is a
+function of the **load of the system** and further affected by each process's
+nice value.
+
+## The Linux scheduilng algorithm
+
+## Scheduler classes
+
+Each class defines/enable different algorithms to schedule different types of
+processes. Classes have priorities so several scheduler classes can coexist.
+
+CFS is registered for normal processes, called `SCHED_NORMAL` in Linux.
+
+## Fair Scheduling
+
+CFS is based on a simple concept: Model process scheduling as if the system
+had an ideal, perfectly multitasking processor: each process would recive
+`1/n` of the processor's time, where `n` is the number of runnable processes,
+and we'd schedule them for infinitely small durations, so any measureble
+period we'd have run all `n` processes for the same amount of time.
+
 [ps]:  images/process-states.jpg
-[ksf]: images/kernel-scheduler-functions.jpg
-[tsp]: images/thread-scheduler-priorities.jpg
 
+[linus-easy-scheduler-2001]: http://tech-insider.org/linux/research/2001/1215.html
