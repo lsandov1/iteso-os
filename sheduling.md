@@ -5,11 +5,28 @@ Problem: Tasks >> CPU Cores, so which to tasks to run? when? and how long?
 One of the kernel's task tries to solve it efficiently and all this code is
 what we call the 'scheduler'.
 
-## Process Life-Cycle
+## Process
 
-Simplistic process life-cycle diagram
+A instance of a program (object code stored on some media) running.
 
-![alt text][plc]
+On a modern OS, even on IDLE, there are many process running (kernel and user
+space processes)
+
+To see all processes
+
+```bash
+ps aux
+```
+
+<!-- ### Process Life-Cycle -->
+
+<!-- Simplistic process life-cycle diagram -->
+
+<!-- ![alt text][plc] -->
+
+### Process States
+
+![alt text][ps]
 
 
 ## Kernel scheduler
@@ -93,7 +110,8 @@ programmed to inform the process that CPU execution may be halted (halt
 instruction) or throttled down to conserve power. The CPU will wake up on
 the next HW interrupt.  
 
-
 [plc]: images/process-life-cycle.jpg
+[ps]:  images/process-states.jpg
 [ksf]: images/kernel-scheduler-functions.jpg
 [tsp]: images/thread-scheduler-priorities.jpg
+
