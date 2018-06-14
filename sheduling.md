@@ -3,6 +3,8 @@
 The process scheduler (located at the kernel) deals with *processes* so lets
 review what are these entities.
 
+We discuss only the Linux Kernel.
+
 ## Process
 
 A instance of a program (object code stored on some media) running. On a
@@ -89,14 +91,14 @@ for batch runs in servers but bad for desktops.
 is the default in Linux.
 
 
-## Policy
+<!-- ## Policy -->
 
-defines **what* runs and *when*. Often determines the overall feel of a system
-and is responsible for optimally utilizing processor time.
+<!-- Defines *what* runs and *when*. Often determines the overall feel of a system -->
+<!-- and is responsible for optimally utilizing processor time. -->
 
-### I/0-Bound Versus Process-Bound Processes
+<!-- ### I/0-Bound Versus Process-Bound Processes -->
 
-### Process Priority
+## Process Priority
 
 Linux implements two separate priority ranges: *nice* and *real-time* priotity
 
@@ -120,7 +122,6 @@ provides a **proportion** of the processor, so the assigned timeslice is a
 function of the **load of the system** and further affected by each process's
 nice value.
 
-## The Linux scheduilng algorithm
 
 ## Scheduler classes
 
@@ -138,5 +139,4 @@ and we'd schedule them for infinitely small durations, so any measureble
 period we'd have run all `n` processes for the same amount of time.
 
 [ps]:  images/process-states.jpg
-
 [linus-easy-scheduler-2001]: http://tech-insider.org/linux/research/2001/1215.html
