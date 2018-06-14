@@ -91,13 +91,6 @@ for batch runs in servers but bad for desktops.
 is the default in Linux.
 
 
-<!-- ## Policy -->
-
-<!-- Defines *what* runs and *when*. Often determines the overall feel of a system -->
-<!-- and is responsible for optimally utilizing processor time. -->
-
-<!-- ### I/0-Bound Versus Process-Bound Processes -->
-
 ## Process Priority
 
 Linux implements two separate priority ranges: *nice* and *real-time* priotity
@@ -137,6 +130,10 @@ had an ideal, perfectly multitasking processor: each process would recive
 `1/n` of the processor's time, where `n` is the number of runnable processes,
 and we'd schedule them for infinitely small durations, so any measureble
 period we'd have run all `n` processes for the same amount of time.
+
+
+![alt text](https://www.linuxjournal.com/files/linuxjournal.com/linuxjournalårticles/102/10267/10267f1.jpg
+"Ideal Precise Multi-tasking CPU")
 
 [ps]:  images/process-states.jpg
 [linus-easy-scheduler-2001]: http://tech-insider.org/linux/research/2001/1215.html
