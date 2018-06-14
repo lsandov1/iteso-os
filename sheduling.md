@@ -5,10 +5,9 @@ review what are these entities.
 
 ## Process
 
-A instance of a program (object code stored on some media) running.
-
-On a modern OS, even on *idle*, there are many process running (kernel and user
-space processes)
+A instance of a program (object code stored on some media) running. On a
+modern OS, even on *idle*, there are many process running (kernel and user
+space processes).
 
 To see all processes
 
@@ -56,10 +55,10 @@ concurrently.
 **Multiprocessor machines**: process actually run concurrenlty, in parallel,
 on different processors.
 
-Enables many procceses to *block* or *sleep*.
+Not all process run at the same time, so many procceses to *block* or *sleep*.
 
-Multitasking OSs come in two flavors: *coopertive multitasking* and *
-preemptive multitasking*. Most modern OS are preemptive, so the scheduler
+Multitasking OSs come in two flavors: *coopertive multitasking* and
+*preemptive multitasking*. Most modern OS are preemptive, so the scheduler
 decides when a process is to cease running and a new process is to begin
 running.
 
@@ -71,9 +70,8 @@ A [phrase][linus-easy-scheduler-2001] from Linus Torvalds about scheduling in 20
 > aged as well as the scheduler. Which is just another proof that scheduling
 > is easy.
 
-Things have now: **multicore** machines.
+But the **multicore** came and complexity came to this area.
 
-how many cores your machine have?
 
 ```bash
 cat /proc/cpuinfo
