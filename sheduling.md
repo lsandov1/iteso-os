@@ -132,8 +132,8 @@ and we'd schedule them for infinitely small durations, so any measureble
 period we'd have run all `n` processes for the same amount of time.
 
 
-![alt text](https://www.linuxjournal.com/files/linuxjournal.com/linuxjournalårticles/102/10267/10267f1.jpg
-"Ideal Precise Multi-tasking CPU")
+![alt text][imt]
 
-[ps]:  images/process-states.jpg
+[ps]: images/process-states.jpg "taken from the LKD book"
 [linus-easy-scheduler-2001]: http://tech-insider.org/linux/research/2001/1215.html
+[imt]: images/ideal-multitasking.jpg "https://www.linuxjournal.com/files/linuxjournal.com/linuxjournal/articles/102/10267/10267f1.jpg"
