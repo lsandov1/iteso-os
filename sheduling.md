@@ -51,7 +51,7 @@ A *multitasking* OS is one that can simultaneously interleave execution of
 more that one process.
 
 **Single processor machines**: gives the illusion of multiple processes running
-concurrently
+concurrently.
 **Multiprocessor machines**: process actually run concurrenlty, in parallel,
 on different processors.
 
