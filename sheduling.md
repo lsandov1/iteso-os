@@ -52,6 +52,7 @@ more that one process.
 
 **Single processor machines**: gives the illusion of multiple processes running
 concurrently.
+
 **Multiprocessor machines**: process actually run concurrenlty, in parallel,
 on different processors.
 
