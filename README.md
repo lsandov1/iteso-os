@@ -2,7 +2,7 @@
 
 * [Processes](processes.md)
 * [Scheduling](scheduling.md)
-* [Completely Fair Scheduler](cfs.md)
+   * [Completely Fair Scheduler](cfs.md)
 
 ## Bibliography
 
