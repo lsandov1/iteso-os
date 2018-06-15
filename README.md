@@ -1,8 +1,8 @@
 # Operating Systems
 
-Topics covered so far:
-
-* [Scheduling](sheduling.md)
+* [Processes](processes.md)
+* [Scheduling](scheduling.md)
+* [Completely Fair Scheduler](cfs.md)
 
 ## Bibliography
 
