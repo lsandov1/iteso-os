@@ -129,6 +129,10 @@ and we'd schedule them for infinitely small durations, so any measureble
 period we'd have run all `n` processes for the same amount of time.
 
 
+Model is impractical, not possible to *literally* multiple process
+simultaneously. Moreover, it is not efficient to run process for infinitely
+small durations.
+
 ![alt text][imt]
 
 [ps]: images/process-states.jpg "taken from the LKD book"
