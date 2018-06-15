@@ -1,9 +1,7 @@
-# Process Scheduler
+# Linux's process scheduler
 
-The process scheduler (located at the kernel) deals with *processes* so lets
-review what are these entities.
-
-We discuss only the Linux Kernel.
+Part of the [kernel][kernel-structure]. It is just called the *scheduler*. The
+scheduler deals with *processes* so lets (briefly) review what are these entities.
 
 ## Process
 
@@ -79,8 +77,9 @@ But the **multicore** came and complexity came to this area.
 cat /proc/cpuinfo
 ```
 
-**First scheduler**: Pros: First version of the Linux's scheduler was simple. Cons: Easy to understand, but
-scaled poorly in light of many runnable processes or many processors.
+**First scheduler**: Pros: First version of the Linux's scheduler was
+simple. Cons: Easy to understand, but scaled poorly in light of many runnable
+processes or many processors. 
 
 **`O(1)`**: Pros: Fast, scalable on large "iron" with tens if not hundreds of
 processors. Cons: pathological failures related to scheduling
@@ -91,7 +90,7 @@ for batch runs in servers but bad for desktops.
 is the default in Linux.
 
 
-## Process Priority
+### Process Priority and timeslices
 
 Linux implements two separate priority ranges: *nice* and *real-time* priotity
 
@@ -103,9 +102,7 @@ ps -eo state,uid,pid,ppid,rtprio,time,comm # for real-time values
 ```
 
 
-### Timeslice
-
-Numeric value that represents how long a task can run until it is preempted.
+A timeslice is a numeric value that represents how long a task can run until it is preempted.
 
 Too causes causes the system to have a poor interactive performance and too
 short causes significant amounts of processor time to be wasted on switching processes.
@@ -137,3 +134,4 @@ period we'd have run all `n` processes for the same amount of time.
 [ps]: images/process-states.jpg "taken from the LKD book"
 [linus-easy-scheduler-2001]: http://tech-insider.org/linux/research/2001/1215.html
 [imt]: images/ideal-multitasking.jpg "https://www.linuxjournal.com/files/linuxjournal.com/linuxjournal/articles/102/10267/10267f1.jpg"
+[kernel-structure]: https://en.wikipedia.org/wiki/Completely_Fair_Scheduler "Completely Fair Scheduler"
